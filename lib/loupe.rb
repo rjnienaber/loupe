@@ -1,5 +1,6 @@
 require 'slop'
 require 'bundler'
+require 'yaml'
 
 unless Kernel.respond_to?(:require_relative)
   module Kernel
