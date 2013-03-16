@@ -2,6 +2,7 @@
 source "https://rubygems.org"
 
 gem "slop", "~> 3.4.3"
+gem "rake", "~> 10.0.3"
 
 group :development do
   gem "rspec", "~> 2.13.0"
