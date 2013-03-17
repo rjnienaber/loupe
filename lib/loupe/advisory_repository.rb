@@ -1,3 +1,6 @@
+class RepositoryDownloadException < Exception; end
+class RepositoryUpdateException < Exception; end
+
 class AdvisoryRepository
   def initialize(advisories)
     @gem_advisories = {}
@@ -17,9 +20,17 @@ class AdvisoryRepository
 
   def self.load(cli)
     if git_dir_exists?(cli.git_dir)
-      update_git_dir(cli.git_dir)
+      begin
+        update_git_dir(cli.git_dir)
+      rescue Exception => e
+        raise RepositoryUpdateException.new(e.message)
+      end
     else
-      clone_advisory_repo(cli.advisory_url, cli.git_dir)
+      begin
+        clone_advisory_repo(cli.advisory_url, cli.git_dir)
+      rescue Exception => e
+        raise RepositoryDownloadException.new(e.message)
+      end
     end
 
     new(advisory_files(cli.git_dir).map { |f| Advisory.load(f)})

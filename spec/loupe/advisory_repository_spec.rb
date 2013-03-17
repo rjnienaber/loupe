@@ -67,7 +67,7 @@ describe AdvisoryRepository do
       cli.stub(:advisory_url).and_return('http://advisory-url')
 
       AdvisoryRepository.should_receive(:git_dir_exists?).with('/git_dir').and_return(false)
-      AdvisoryRepository.should_receive(:clone_advisory_repo).with('http://advisory-url', '/git_dir').and_return(true)
+      AdvisoryRepository.should_receive(:clone_advisory_repo).with('http://advisory-url', '/git_dir')
       AdvisoryRepository.should_receive(:advisory_files).with('/git_dir').and_return(%w(file1 file2))
 
       Advisory.should_receive(:load).with('file1').and_return(mock_advisories[0])
@@ -81,8 +81,8 @@ describe AdvisoryRepository do
       cli.stub(:git_dir).and_return('/git_dir')
       cli.stub(:advisory_url).and_return('http://advisory-url')
 
-      AdvisoryRepository.should_receive(:git_dir_exists?).and_return(true)
-      AdvisoryRepository.should_receive(:update_git_dir).and_return(true)
+      AdvisoryRepository.should_receive(:git_dir_exists?).with('/git_dir').and_return(true)
+      AdvisoryRepository.should_receive(:update_git_dir).with('/git_dir')
       AdvisoryRepository.should_receive(:advisory_files).and_return(%w(file1 file2))
 
       Advisory.should_receive(:load).with('file1').and_return(mock_advisories[0])
@@ -90,6 +90,26 @@ describe AdvisoryRepository do
 
       repo = AdvisoryRepository.load(cli)
       repo['actionpack'].length.should == 2
+    end
+
+    it 'throws an error when clone fails' do
+      cli.stub(:git_dir).and_return('/git_dir')
+      cli.stub(:advisory_url).and_return('http://advisory-url')
+
+      AdvisoryRepository.should_receive(:git_dir_exists?).with('/git_dir').and_return(false)
+      AdvisoryRepository.should_receive(:clone_advisory_repo).with('http://advisory-url', '/git_dir').and_throw(Exception.new)
+
+      expect { AdvisoryRepository.load(cli) }.to raise_error(RepositoryDownloadException)
+    end
+
+    it 'throws an error when update fails' do
+      cli.stub(:git_dir).and_return('/git_dir')
+      cli.stub(:advisory_url).and_return('http://advisory-url')
+
+      AdvisoryRepository.should_receive(:git_dir_exists?).with('/git_dir').and_return(true)
+      AdvisoryRepository.should_receive(:update_git_dir).with('/git_dir').and_throw(Exception.new)
+
+      expect { AdvisoryRepository.load(cli) }.to raise_error(RepositoryUpdateException)
     end
   end
 end
