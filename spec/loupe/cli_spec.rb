@@ -11,6 +11,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -21,6 +22,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -31,6 +33,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -41,6 +44,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -51,6 +55,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -61,6 +66,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -71,6 +77,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -81,6 +88,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -91,6 +99,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -101,6 +110,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/home/user/.advisory_db'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -111,6 +121,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/home/user/.advisory_db'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -121,6 +132,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rjnienaber/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -131,6 +143,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rjnienaber/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -141,6 +154,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_true}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
 
@@ -151,6 +165,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_true}
       its(:git_dir) { should == '/var/lib/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
     end
   end
@@ -163,6 +178,7 @@ describe Cli do
       its(:show_advisory_db_sha) { should be_false}
       its(:git_dir) { should == ''}
       its(:advisory_url) { should == ''}
+      its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_false}
     end
   end

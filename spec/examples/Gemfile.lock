@@ -1,0 +1,35 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.3.2)
+    cookiejar (0.3.0)
+    em-http-request (1.0.3)
+      addressable (>= 2.2.3)
+      cookiejar
+      em-socksify
+      eventmachine (>= 1.0.0.beta.4)
+      http_parser.rb (>= 0.5.3)
+    em-socksify (0.2.1)
+      eventmachine (>= 1.0.0.beta.4)
+    eventmachine (1.0.0)
+    http_parser.rb (0.5.3)
+    i18n (0.6.1)
+    mail (2.5.3)
+      i18n (>= 0.4.0)
+      mime-types (~> 1.16)
+      treetop (~> 1.4.8)
+    mime-types (1.21)
+    polyglot (0.3.3)
+    treetop (1.4.12)
+      polyglot
+      polyglot (>= 0.3.1)
+    yajl-ruby (1.1.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  em-http-request
+  eventmachine
+  mail
+  yajl-ruby

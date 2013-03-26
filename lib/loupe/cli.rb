@@ -1,5 +1,5 @@
 class Cli
-  attr_reader :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url
+  attr_reader :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url, :resolve_remotely
 
   def initialize(arguments=ARGV)
     begin
@@ -9,6 +9,7 @@ class Cli
         on 'r=', 'repo-location=', 'The directory to store the advisory repository', :default => '/var/lib/loupe_advisories'
         on 'u=', 'repo-url=', 'The url of the github repository that contains advisories', :default => 'https://github.com/rubysec/ruby-advisory-db.git'
         on 's', 'advisory-db-sha', 'Show Advisory Database SHA'
+        on 'd', 'resolve-remotely', 'Resolve dependencies by getting latest specs from rubygems', :default => false
       end
     rescue Slop::InvalidOptionError
       @lock_files = @gem_files = []
@@ -27,6 +28,7 @@ class Cli
 
     @git_dir = @options[:'repo-location']
     @advisory_url = @options[:'repo-url']
+    @resolve_remotely = @options[:'resolve-remotely']
     @show_advisory_db_sha = @options[:'advisory-db-sha']
     @has_valid_parameters = true
   end

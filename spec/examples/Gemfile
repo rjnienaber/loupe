@@ -1,0 +1,6 @@
+source :rubygems
+
+gem 'yajl-ruby'
+gem 'eventmachine'
+gem 'em-http-request'
+gem 'mail'

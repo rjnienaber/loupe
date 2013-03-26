@@ -14,7 +14,7 @@ class AdvisoryRepository
     @gem_advisories[key] || []
   end
 
-  def check_unsafe_versions(spec)
+  def check_for_unsafe_versions(spec)
     self[spec.name].reject { |a| a.version_safe?(spec)}
   end
 

@@ -32,7 +32,7 @@ describe AdvisoryRepository do
   context '#check_unsafe_versions' do
     it 'returns empty array if no advisories found' do
       spec = Bundler::LazySpecification.new('unknown', '2.3.5', nil)
-      subject.check_unsafe_versions(spec).should == []
+      subject.check_for_unsafe_versions(spec).should == []
     end
 
     it 'returns empty array if no vulnerable versions found' do
@@ -40,7 +40,7 @@ describe AdvisoryRepository do
       mock_advisories[2].should_receive(:version_safe?).and_return(true)
 
       spec = Bundler::LazySpecification.new('actionpack', '2.3.5', nil)
-      subject.check_unsafe_versions(spec).should == []
+      subject.check_for_unsafe_versions(spec).should == []
     end
 
     it 'returns advisory for vulnerable version' do
@@ -48,7 +48,7 @@ describe AdvisoryRepository do
       mock_advisories[2].should_receive(:version_safe?).and_return(false)
 
       spec = Bundler::LazySpecification.new('actionpack', '2.3.5', nil)
-      subject.check_unsafe_versions(spec).should == [mock_advisories[2]]
+      subject.check_for_unsafe_versions(spec).should == [mock_advisories[2]]
     end
 
     it 'returns array of all vulnerable versions' do
@@ -56,7 +56,7 @@ describe AdvisoryRepository do
       mock_advisories[2].should_receive(:version_safe?).and_return(false)
 
       spec = Bundler::LazySpecification.new('actionpack', '2.3.5', nil)
-      subject.check_unsafe_versions(spec).should == [mock_advisories[0], mock_advisories[2]]
+      subject.check_for_unsafe_versions(spec).should == [mock_advisories[0], mock_advisories[2]]
     end
   end
 
