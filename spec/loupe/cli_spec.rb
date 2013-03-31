@@ -9,7 +9,7 @@ describe Cli do
       its(:gem_files) { should == ['./Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -20,7 +20,7 @@ describe Cli do
       its(:gem_files) { should == ['../Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -31,7 +31,7 @@ describe Cli do
       its(:gem_files) { should == ['../Gemfile', './Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -42,7 +42,7 @@ describe Cli do
       its(:gem_files) { should == ['../Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -53,7 +53,7 @@ describe Cli do
       its(:gem_files) { should == []}
       its(:lock_files) { should == ['../Gemfile.lock', './Gemfile.lock']}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -64,7 +64,7 @@ describe Cli do
       its(:gem_files) { should == []}
       its(:lock_files) { should == ['../Gemfile.lock']}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -75,7 +75,7 @@ describe Cli do
       its(:gem_files) { should == []}
       its(:lock_files) { should == ['../Gemfile.lock']}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -86,7 +86,7 @@ describe Cli do
       its(:gem_files) { should == ['../Gemfile']}
       its(:lock_files) { should == ['../Gemfile.lock']}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -97,7 +97,7 @@ describe Cli do
       its(:gem_files) { should == ['../Gemfile', './Gemfile']}
       its(:lock_files) { should == ['../Gemfile.lock']}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -130,7 +130,7 @@ describe Cli do
       its(:gem_files) { should == ['./Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rjnienaber/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -141,7 +141,7 @@ describe Cli do
       its(:gem_files) { should == ['./Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_false}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rjnienaber/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -152,7 +152,7 @@ describe Cli do
       its(:gem_files) { should == ['./Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_true}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
@@ -163,7 +163,7 @@ describe Cli do
       its(:gem_files) { should == ['./Gemfile']}
       its(:lock_files) { should == []}
       its(:show_advisory_db_sha) { should be_true}
-      its(:git_dir) { should == '/var/lib/loupe_advisories'}
+      its(:git_dir) { should == '/var/tmp/loupe_advisories'}
       its(:advisory_url) { should == 'https://github.com/rubysec/ruby-advisory-db.git'}
       its(:resolve_remotely) { should be_false}
       its(:valid?) { should be_true}
