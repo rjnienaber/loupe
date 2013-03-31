@@ -1,5 +1,5 @@
 class Cli
-  attr_reader :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url, :resolve_remotely
+  attr_reader :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url, :resolve_remotely, :formatter
 
   def initialize(arguments=ARGV)
     begin
@@ -17,6 +17,8 @@ class Cli
       @has_valid_parameters = false
       return
     end
+
+    @formatter = ConsoleFormatter.new
 
     @lock_files = @options[:lockfile] || []
 

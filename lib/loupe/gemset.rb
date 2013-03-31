@@ -3,10 +3,11 @@ class GemsetInvalidFormatException < Exception; end
 
 class Gemset
   include Enumerable
-  attr_reader :specs
+  attr_reader :specs, :file_path
 
-  def initialize(lazy_specs)
-    @specs = lazy_specs
+  def initialize(file_path, lazy_specs)
+    @file_path = file_path
+    @specs = lazy_specs.sort{ |x,y| x.name <=> y.name}
   end
 
   def each
@@ -15,9 +16,19 @@ class Gemset
     end
   end
 
+    def check_for_unsafe_versions(advisory_repository)
+    results = {}
+    specs.each do |spec|
+      result = advisory_repository.check_for_unsafe_versions(spec)
+      next if result.empty?
+      results[spec.to_s] = result
+    end
+    results
+  end
+
   def self.parse_lock_file(file_path)
     raise GemsetNotFoundException.new(file_path) if !File.exist?(file_path)
-    new(Bundler::LockfileParser.new(File.read(file_path)).specs)
+    new(file_path, Bundler::LockfileParser.new(File.read(file_path)).specs)
   end
 
   def self.parse_gem_file(file_path)
@@ -26,8 +37,7 @@ class Gemset
 
     gem_file_specs = definition.resolve_remotely!
     specs = gem_file_specs.to_a.map { |a| Bundler::LazySpecification.new(a.name, a.version, a.platform)}
-    specs.sort!{ |x,y| x.name <=> y.name}
 
-    new(specs)
+    new(file_path, specs)
   end
 end

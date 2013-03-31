@@ -13,4 +13,3 @@ end
 require_relative 'loupe/gemset'
 require_relative 'loupe/advisory'
 require_relative 'loupe/advisory_repository'
-require_relative 'loupe/cli'

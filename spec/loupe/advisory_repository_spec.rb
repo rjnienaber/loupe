@@ -29,7 +29,7 @@ describe AdvisoryRepository do
     end
   end
 
-  context '#check_unsafe_versions' do
+  context '#check_for_unsafe_versions' do
     it 'returns empty array if no advisories found' do
       spec = Bundler::LazySpecification.new('unknown', '2.3.5', nil)
       subject.check_for_unsafe_versions(spec).should == []

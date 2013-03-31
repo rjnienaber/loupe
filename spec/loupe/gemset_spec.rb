@@ -6,7 +6,10 @@ describe Gemset do
 
   describe '#parse_lock_file' do
     it 'returns all specs' do
-      gemset = Gemset.parse_lock_file(File.expand_path('Gemfile.lock', EXAMPLES_DIR))
+      file_path = File.expand_path('Gemfile.lock', EXAMPLES_DIR)
+      gemset = Gemset.parse_lock_file(file_path)
+
+      gemset.file_path.should == file_path
 
       gemset.specs.all? { |s| s.kind_of?(Bundler::LazySpecification)}.should be_true
 
@@ -28,7 +31,10 @@ describe Gemset do
       spec_set = Bundler::SpecSet.new(example_specs.map {|s| Gem::Specification.new(s[0], s[1])})
       Bundler::Definition.any_instance.stub(:resolve_remotely!).and_return(spec_set)
 
-      gemset = Gemset.parse_gem_file(File.expand_path('Gemfile_2', EXAMPLES_DIR))
+      file_path = File.expand_path('Gemfile_2', EXAMPLES_DIR)
+      gemset = Gemset.parse_gem_file(file_path)
+
+      gemset.file_path.should == file_path
 
       gemset.specs.all? { |s| s.kind_of?(Bundler::LazySpecification)}.should be_true
       gemset.specs[0].name.should == 'RedCloth'
@@ -43,24 +49,47 @@ describe Gemset do
     end
   end
 
+  context '#check_for_unsafe_versions' do
+    let(:specs) { example_specs[0..2].map{ |s| Bundler::LazySpecification.new(s[0], s[1], nil)} }
+    subject { Gemset.new(nil, specs) }
+
+    it 'returns empty hash when no vulnerabilities are found' do
+      advisory_repo = double('advisory_repo')
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'rake'}.and_return([])
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'RedCloth'}.and_return([])
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'i18n'}.and_return([])
+
+      subject.check_for_unsafe_versions(advisory_repo).should == {}
+    end
+
+    it 'returns hash with found vulnerabilities' do
+      advisory_repo = double('advisory_repo')
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'rake'}.and_return([])
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'RedCloth'}.and_return('cve' => '2349-3563')
+      advisory_repo.should_receive(:check_for_unsafe_versions).with { |s| s.name == 'i18n'}.and_return([])
+
+      subject.check_for_unsafe_versions(advisory_repo).should == {'RedCloth (4.2.9)' => {'cve' => '2349-3563'}}
+    end
+  end
+
   context 'implements Enumerable' do
     let(:specs) { example_specs[0..2].map{ |s| Bundler::LazySpecification.new(s[0], s[1], nil)} }
-    subject { Gemset.new(specs) }
+    subject { Gemset.new(nil, specs) }
     it '#each' do
       subject.each_with_index do |s, i|
         case i
-          when 0 then s.name.should == 'rake'
-          when 1 then s.name.should == 'RedCloth'
-          when 2 then s.name.should == 'i18n'
+          when 0 then s.name.should == 'RedCloth'
+          when 1 then s.name.should == 'i18n'
+          when 2 then s.name.should == 'rake'
         end
       end
     end
 
     it '#map' do
       mapped_specs = subject.map { |s| s.name }
-      mapped_specs[0].should == 'rake'
-      mapped_specs[1].should == 'RedCloth'
-      mapped_specs[2].should == 'i18n'
+      mapped_specs[0].should == 'RedCloth'
+      mapped_specs[1].should == 'i18n'
+      mapped_specs[2].should == 'rake'
     end
   end
 end
