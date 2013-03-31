@@ -1,4 +1,3 @@
-require 'slop'
 require 'bundler'
 require 'yaml'
 

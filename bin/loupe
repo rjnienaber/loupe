@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+$: << '/home/richard/loupe/lib'
+Signal.trap("INT") do
+  exit 1
+end
+
+require 'loupe'
+require 'loupe/console_formatter'
+require 'loupe/cli'
+require 'loupe/loupe_runner'
+
+LoupeRunner.new(Cli.new).run
+
+
+
+
+
+

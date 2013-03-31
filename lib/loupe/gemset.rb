@@ -1,4 +1,8 @@
-class GemsetNotFoundException < Exception; end
+class GemsetNotFoundException < Exception
+  def initialize(file_path)
+    super("'#{file_path}' was not found")
+  end
+end
 class GemsetInvalidFormatException < Exception; end
 
 class Gemset

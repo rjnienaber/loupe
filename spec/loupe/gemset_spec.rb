@@ -21,7 +21,7 @@ describe Gemset do
     end
 
     it "throws an error if the file doesn't exist" do
-      expect { Gemset.parse_lock_file('non-existent-fail.txt') }.to raise_error(GemsetNotFoundException)
+      expect { Gemset.parse_lock_file('non-existent-fail.txt') }.to raise_error(GemsetNotFoundException, "'non-existent-fail.txt' was not found")
     end
   end
 
@@ -45,7 +45,7 @@ describe Gemset do
     end
 
     it "throws an error if the file doesn't exist" do
-      expect { Gemset.parse_gem_file('non-existent-fail.txt') }.to raise_error(GemsetNotFoundException)
+      expect { Gemset.parse_gem_file('non-existent-fail.txt') }.to raise_error(GemsetNotFoundException, "'non-existent-fail.txt' was not found")
     end
   end
 
