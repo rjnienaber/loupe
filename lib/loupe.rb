@@ -9,6 +9,7 @@ unless Kernel.respond_to?(:require_relative)
   end
 end
 
+require_relative 'loupe/version'
 require_relative 'loupe/gemset'
 require_relative 'loupe/advisory'
 require_relative 'loupe/advisory_repository'
