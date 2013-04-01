@@ -42,13 +42,14 @@ describe LoupeRunner do
       cli.should_receive(:valid?).and_return(true)
       cli.should_receive(:lock_files).and_return(['Gemfile.lock'])
       cli.should_receive(:gem_files).and_return(['Gemfile'])
+      cli.should_receive(:resolve_remotely).and_return(false)
 
       gemset = double('gemset')
       Gemset.should_receive(:parse_lock_file).with('Gemfile.lock').and_return(gemset)
       subject.should_receive(:process_gemset).with('Gemfile.lock', gemset).and_return(false)
 
       gemset_2 = double('gemset_2')
-      Gemset.should_receive(:parse_gem_file).with('Gemfile').and_return(gemset_2)
+      Gemset.should_receive(:parse_gem_file).with('Gemfile', false).and_return(gemset_2)
       subject.should_receive(:process_gemset).with('Gemfile', gemset_2).and_return(true)
 
       subject.run.should == 1
@@ -70,9 +71,10 @@ describe LoupeRunner do
       cli.should_receive(:valid?).and_return(true)
       cli.should_receive(:lock_files).and_return([])
       cli.should_receive(:gem_files).and_return(['Gemfile'])
+      cli.should_receive(:resolve_remotely).and_return(true)
 
       gemset = double('gemset')
-      Gemset.should_receive(:parse_gem_file).with('Gemfile').and_return(gemset)
+      Gemset.should_receive(:parse_gem_file).with('Gemfile', true).and_return(gemset)
       subject.should_receive(:process_gemset).with('Gemfile', gemset).and_return(true)
 
       subject.run.should == 0

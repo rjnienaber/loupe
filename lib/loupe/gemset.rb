@@ -35,11 +35,11 @@ class Gemset
     new(file_path, Bundler::LockfileParser.new(File.read(file_path)).specs)
   end
 
-  def self.parse_gem_file(file_path)
+  def self.parse_gem_file(file_path, resolve_remotely=false)
     raise GemsetNotFoundException.new(file_path) if !File.exist?(file_path)
     definition = Bundler::Definition.build(file_path, nil, nil)
 
-    gem_file_specs = definition.resolve_remotely!
+    gem_file_specs = resolve_remotely ? definition.resolve_remotely! : definition.resolve_with_cache!
     specs = gem_file_specs.to_a.map { |a| Bundler::LazySpecification.new(a.name, a.version, a.platform)}
 
     new(file_path, specs)

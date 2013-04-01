@@ -22,7 +22,7 @@ class LoupeRunner
     end
 
     results += cli.gem_files.each do |f|
-      process_gemset(f, Gemset.parse_gem_file(f))
+      process_gemset(f, Gemset.parse_gem_file(f, cli.resolve_remotely))
     end
 
     results.all? ? NO_VULNERABILITIES_FOUND : VULNERABILITIES_FOUND

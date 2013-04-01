@@ -2,7 +2,7 @@
 
 $: << '/home/richard/loupe/lib'
 Signal.trap("INT") do
-  exit 1
+  exit 3
 end
 
 require 'loupe'
@@ -10,7 +10,7 @@ require 'loupe/console_formatter'
 require 'loupe/cli'
 require 'loupe/loupe_runner'
 
-LoupeRunner.new(Cli.new).run
+exit LoupeRunner.new(Cli.new).run
 
 
 

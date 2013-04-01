@@ -26,10 +26,9 @@ describe Gemset do
   end
 
   describe '#parse_gem_file' do
-    it 'returns all specs' do
-      #remotely resolved specset
+    it 'returns all specs resolving with cache' do
       spec_set = Bundler::SpecSet.new(example_specs.map {|s| Gem::Specification.new(s[0], s[1])})
-      Bundler::Definition.any_instance.stub(:resolve_remotely!).and_return(spec_set)
+      Bundler::Definition.any_instance.stub(:resolve_with_cache!).and_return(spec_set)
 
       file_path = File.expand_path('Gemfile_2', EXAMPLES_DIR)
       gemset = Gemset.parse_gem_file(file_path)
@@ -43,6 +42,24 @@ describe Gemset do
       gemset.specs[-1].name.should == 'webrat'
       gemset.specs[-1].version.to_s.should == '0.7.3'
     end
+
+    it 'returns all specs resolving remotely' do
+      spec_set = Bundler::SpecSet.new(example_specs.map {|s| Gem::Specification.new(s[0], s[1])})
+      Bundler::Definition.any_instance.stub(:resolve_remotely!).and_return(spec_set)
+
+      file_path = File.expand_path('Gemfile_2', EXAMPLES_DIR)
+      gemset = Gemset.parse_gem_file(file_path, true)
+
+      gemset.file_path.should == file_path
+
+      gemset.specs.all? { |s| s.kind_of?(Bundler::LazySpecification)}.should be_true
+      gemset.specs[0].name.should == 'RedCloth'
+      gemset.specs[0].version.to_s.should == '4.2.9'
+
+      gemset.specs[-1].name.should == 'webrat'
+      gemset.specs[-1].version.to_s.should == '0.7.3'
+    end
+
 
     it "throws an error if the file doesn't exist" do
       expect { Gemset.parse_gem_file('non-existent-fail.txt') }.to raise_error(GemsetNotFoundException, "'non-existent-fail.txt' was not found")
