@@ -1,5 +1,3 @@
-require 'open3'
-
 class RepositoryDownloadException < Exception; end
 class RepositoryUpdateException < Exception; end
 
@@ -50,8 +48,8 @@ class AdvisoryRepository
   end
 
   def self.execute(command)
-    stdin, stdout, stderr, status = Open3.popen3(command)
-    message = stdout.gets.to_s + stderr.gets.to_s
-    [message, status.value]
+    cmd_with_stderr = command + ' 2>&1'
+    output = `#{cmd_with_stderr}`
+    [output, $?.exitstatus]
   end
 end

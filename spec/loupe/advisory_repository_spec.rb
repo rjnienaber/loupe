@@ -112,4 +112,24 @@ describe AdvisoryRepository do
       expect { AdvisoryRepository.load(cli) }.to raise_error(RepositoryUpdateException, 'git update failed')
     end
   end
+
+  context '#execute' do
+    it 'can run a valid command and get stdout and exit code' do
+      output, exit_code = AdvisoryRepository.send(:execute, 'echo TEST')
+      output.should == "TEST\n"
+      exit_code.should == 0
+    end
+
+    it 'can a run an invalid command and get stdout and exit code' do
+      output, exit_code = AdvisoryRepository.send(:execute, 'ls 45fdgfg')
+      output.should == "ls: cannot access 45fdgfg: No such file or directory\n"
+      exit_code.should == 2
+    end
+
+    it 'can run an valid command and get stderr and exit code' do
+      output, exit_code = AdvisoryRepository.send(:execute, 'ruby -e \'warn "This message goes to stderr"\'')
+      output.should == "This message goes to stderr\n"
+      exit_code.should == 0
+    end
+  end
 end
