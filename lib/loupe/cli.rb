@@ -1,7 +1,7 @@
 require 'slop'
 
 class Cli
-  attr_reader :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url, :resolve_remotely, :formatter
+  attr_reader :options, :gem_files, :lock_files, :show_advisory_db_sha, :git_dir, :advisory_url, :resolve_remotely, :formatter, :help
 
   def initialize(arguments=ARGV)
     begin
@@ -12,11 +12,13 @@ class Cli
         on 'u=', 'repo-url=', 'The url of the github repository that contains advisories', :default => 'https://github.com/rubysec/ruby-advisory-db.git'
         on 's', 'advisory-db-sha', 'Show Advisory Database SHA'
         on 'd', 'resolve-remotely', 'Resolve dependencies by getting latest specs from rubygems', :default => false
+        on 'h', 'help', 'Print out this help'
       end
     rescue Slop::InvalidOptionError
       @lock_files = @gem_files = []
       @git_dir = @advisory_url = ''
       @has_valid_parameters = false
+      @help = true
       return
     end
 
@@ -35,6 +37,7 @@ class Cli
     @resolve_remotely = @options[:'resolve-remotely']
     @show_advisory_db_sha = @options[:'advisory-db-sha']
     @has_valid_parameters = true
+    @help = options[:help]
   end
 
   def valid?

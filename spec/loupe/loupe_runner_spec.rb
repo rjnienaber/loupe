@@ -12,11 +12,24 @@ describe LoupeRunner do
   context '#run' do
     it "exits with '2' if invalid parameters assigned" do
       cli.should_receive(:valid?).and_return(false)
+      cli.should_receive(:options).and_return('Options help message')
+      subject.should_receive(:print_message).with('Options help message')
+
+      subject.run.should == 2
+    end
+
+    it "exists with '2' and prints help if --help" do
+      cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(true)
+      cli.should_receive(:options).and_return('Options help message')
+      subject.should_receive(:print_message).with('Options help message')
+
       subject.run.should == 2
     end
 
     it "exits with '3' if there's an unexpected error" do
       cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(false)
       cli.should_receive(:lock_files).and_return(['Gemfile.lock'])
       Gemset.should_receive(:parse_lock_file).with('Gemfile.lock').and_raise(Exception.new('Failed to load repo'))
 
@@ -27,6 +40,7 @@ describe LoupeRunner do
 
     it "exits with '4' and outputs vulnerabilities if found" do
       cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(false)
       cli.should_receive(:lock_files).and_return(['Gemfile.lock'])
       cli.should_receive(:gem_files).and_return([])
 
@@ -40,6 +54,7 @@ describe LoupeRunner do
 
     it "exits with '4' and processes multiple files with vulnerabilities" do
       cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(false)
       cli.should_receive(:lock_files).and_return(['Gemfile.lock'])
       cli.should_receive(:gem_files).and_return(['Gemfile'])
       cli.should_receive(:resolve_remotely).and_return(false)
@@ -57,6 +72,7 @@ describe LoupeRunner do
 
     it "exits with '0' if there are no errors on a Gemfile.lock file" do
       cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(false)
       cli.should_receive(:lock_files).and_return(['Gemfile.lock'])
       cli.should_receive(:gem_files).and_return([])
 
@@ -69,6 +85,7 @@ describe LoupeRunner do
 
     it "exits with '0' if there are no errors on a Gemfile" do
       cli.should_receive(:valid?).and_return(true)
+      cli.should_receive(:help).and_return(false)
       cli.should_receive(:lock_files).and_return([])
       cli.should_receive(:gem_files).and_return(['Gemfile'])
       cli.should_receive(:resolve_remotely).and_return(true)

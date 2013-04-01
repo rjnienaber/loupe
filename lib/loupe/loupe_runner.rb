@@ -15,7 +15,10 @@ class LoupeRunner
   end
 
   def run
-    return INVALID_CLI if !cli.valid?
+    if !cli.valid? || cli.help
+      print_message(cli.options)
+      return INVALID_CLI
+    end
 
     results = cli.lock_files.map do |f|
       process_gemset(f, Gemset.parse_lock_file(f))
