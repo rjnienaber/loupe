@@ -32,16 +32,33 @@ class Gemset
 
   def self.parse_lock_file(file_path)
     raise GemsetNotFoundException.new(file_path) if !File.exist?(file_path)
-    new(file_path, Bundler::LockfileParser.new(File.read(file_path)).specs)
+    with_bundle_gemfile_env(file_path) do
+      new(file_path, Bundler::LockfileParser.new(File.read(file_path)).specs)
+    end
   end
 
   def self.parse_gem_file(file_path, resolve_remotely=false)
     raise GemsetNotFoundException.new(file_path) if !File.exist?(file_path)
-    definition = Bundler::Definition.build(file_path, nil, nil)
-
-    gem_file_specs = resolve_remotely ? definition.resolve_remotely! : definition.resolve_with_cache!
+    gem_file_specs = with_bundle_gemfile_env(file_path) do
+      definition = Bundler::Definition.build(file_path, nil, nil)
+      resolve_remotely ? definition.resolve_remotely! : definition.resolve_with_cache!
+    end
     specs = gem_file_specs.to_a.map { |a| Bundler::LazySpecification.new(a.name, a.version, a.platform)}
 
     new(file_path, specs)
+  end
+
+  #bundler uses this environment variable to locate the root of the application
+  #and subsequently any 'vendor/cache' directory.
+  #loupe is designed to be run from anywhere so we explicitly set it here
+  #so we can do this
+  def self.with_bundle_gemfile_env(file_path, &block)
+    temp = ENV['BUNDLE_GEMFILE']
+    begin
+      ENV['BUNDLE_GEMFILE'] = file_path
+      block.call
+    ensure
+      ENV['BUNDLE_GEMFILE'] = temp
+    end
   end
 end
