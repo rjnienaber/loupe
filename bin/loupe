@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-$: << '/home/richard/loupe/lib'
+$: << "#{File.dirname(__FILE__)}/../lib"
 Signal.trap("INT") do
   exit 3
 end
