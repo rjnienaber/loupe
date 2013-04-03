@@ -1,3 +1,5 @@
+require 'rubygems'
+require 'thor'
 require 'bundler'
 require 'yaml'
 
@@ -8,6 +10,8 @@ unless Kernel.respond_to?(:require_relative)
     end
   end
 end
+
+Bundler.ui = Bundler::UI::Shell.new({})
 
 require_relative 'loupe/version'
 require_relative 'loupe/gemset'
